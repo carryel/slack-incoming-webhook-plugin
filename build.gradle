@@ -49,13 +49,13 @@ dependencies {
 
 // task to copy plugin libs to output/lib dir
 tasks.register('copyToLib', Copy) {
-    into "$layout.buildDirectory/output/lib"
+    into layout.buildDirectory.dir('output/lib')
     from configurations.pluginLibs
 }
 
 jar {
     //include contents of output dir
-    from "$layout.buildDirectory/output"
+    from layout.buildDirectory.dir('output')
     manifest {
         attributes 'Rundeck-Plugin-Name' : 'Slack Notification'
         attributes 'Rundeck-Plugin-Description' : 'Sends Rundeck notification messages to a slack channel.'
