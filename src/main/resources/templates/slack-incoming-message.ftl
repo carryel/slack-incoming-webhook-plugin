@@ -1,9 +1,9 @@
-<#if executionData.job.group??>
-    <#assign jobName="${executionData.job.group} / ${executionData.job.name}">
-<#else>
-    <#assign jobName="${executionData.job.name}">
+<#if trigger == "success">
+    <#assign message="${executionData.project} - <${executionData.href}|#${executionData.id}> Success">
 </#if>
-<#assign message="<${executionData.href}|Execution #${executionData.id}> of job <${executionData.job.href}|${jobName}>">
+<#if trigger == "failure">
+    <#assign message="${executionData.project} - <${executionData.href}|#${executionData.id}> Failure :cat-roomba-exceptionally-fast:">
+</#if>
 <#if trigger == "start">
     <#assign state="Started">
 <#elseif trigger == "failure">
@@ -11,59 +11,71 @@
 <#elseif trigger == "avgduration">
     <#assign state="Average exceeded">
 <#elseif trigger == "retryablefailure">
-   <#assign state="Retry Failure">
+    <#assign state="Retry Failure">
 <#else>
-   <#assign state="Succeeded">
+    <#assign state="Succeeded">
 </#if>
 
 {
 <#if channel??>
-   "channel":"${channel}",
+    "channel":"${channel}",
 </#if>
-   "attachments":[
-      {
-         "fallback":"${state}: ${message}",
-         "pretext":"${message}",
-         "color":"${color}",
-         "fields":[
-            {
-               "title":"Job Name",
-               "value":"<${executionData.job.href}|${jobName}>",
-               "short":true
-            },
-            {
-               "title":"Project",
-               "value":"${executionData.project}",
-               "short":true
-            },
-            {
-               "title":"Status",
-               "value":"${state}",
-               "short":true
-            },
-            {
-               "title":"Execution ID",
-               "value":"<${executionData.href}|#${executionData.id}>",
-               "short":true
-            },
-            {
-               "title":"Options",
-               "value":"${(executionData.argstring?replace('"', '\''))!"N/A"}",
-               "short":true
-            },
-            {
-               "title":"Started By",
-               "value":"${executionData.user}",
-               "short":true
-            }
+    "attachments":[
+        {
+            "fallback":"${state}: ${message}",
+            "pretext":"${message}",
+            "color":"${color}",
+            "fields":[
+                {
+                    "title":"Project",
+                    "value":"${executionData.project}",
+                    "short":true
+                }
+                ,{
+                    "title":"Phase",
+                    "value":"${executionData.job.group}",
+                    "short":true
+                }
+                ,{
+                    "title":"Job Name",
+                    "value":"<${executionData.job.href}|${executionData.job.name}>",
+                    "short":true
+                }
+                ,{
+                    "title":"Started By",
+                    "value":"&lt;@${executionData.user}&gt;",
+                    "short":true
+                }
+                ,{
+                    "title":"Execution ID",
+                    "value":"<${executionData.href}|#${executionData.id}>",
+                    "short":true
+                }
+<#if trigger == "success">
+                ,{
+                    "title":"Status",
+                    "value":":smile:",
+                    "short":true
+                }
+                ,{
+                    "title":"Nodes",
+                    "value":"${executionData.succeededNodeListString}",
+                    "short":true
+                }
+</#if>
 <#if trigger == "failure">
-            ,{
-               "title":"Failed Nodes",
-               "value":"${executionData.failedNodeListString!"- (Job itself failed)"}",
-               "short":false
-            }
+                ,{
+                    "title":"Status",
+                    "value":":x:",
+                    "short":true
+                }
+                ,{
+                    "title":"Failed Nodes",
+                    "value":"${executionData.failedNodeListString}",
+                    "short":true
+                }
 </#if>
-]
-      }
-   ]
+            ]
+        }
+    ]
 }
