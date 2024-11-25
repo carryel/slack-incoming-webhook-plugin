@@ -59,7 +59,7 @@
                 }
                 ,{
                     "title":"Nodes",
-                    "value":"${executionData.succeededNodeListString}",
+                    "value":"${executionData.succeededNodeListString?truncate(324)}",
                     "short":false
                 }
 </#if>
@@ -71,7 +71,7 @@
                 }
                 ,{
                     "title":"Failed Nodes",
-                    "value":"${executionData.failedNodeListString}",
+                    "value":"${executionData.failedNodeListString?truncate(324)}",
                     "short":false
                 }
 </#if>
