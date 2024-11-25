@@ -60,7 +60,7 @@
                 ,{
                     "title":"Nodes",
                     "value":"${executionData.succeededNodeListString}",
-                    "short":true
+                    "short":false
                 }
 </#if>
 <#if trigger == "failure">
@@ -72,7 +72,7 @@
                 ,{
                     "title":"Failed Nodes",
                     "value":"${executionData.failedNodeListString}",
-                    "short":true
+                    "short":false
                 }
 </#if>
             ]
