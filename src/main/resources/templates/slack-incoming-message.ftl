@@ -2,7 +2,7 @@
     <#assign message="${executionData.project} - <${executionData.href}|#${executionData.id}> Success">
 </#if>
 <#if trigger == "failure">
-    <#assign message="${executionData.project} - <${executionData.href}|#${executionData.id}> Failure :cat-roomba-exceptionally-fast:">
+    <#assign message="${executionData.project} - <${executionData.href}|#${executionData.id}> Failure :cat-spin:">
 </#if>
 <#if trigger == "start">
     <#assign state="Started">
